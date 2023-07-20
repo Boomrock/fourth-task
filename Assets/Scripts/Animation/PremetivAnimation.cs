@@ -8,14 +8,13 @@ public class PremetivAnimation : MonoBehaviour
 {
     [SerializeField] private GameObject Cube;
     [SerializeField] private float duration = 5;
-    [SerializeField] private Vector3 endPoint; 
+    [SerializeField] private Vector3 endPoint;
+    private Tween tween;
     
     // Start is called before the first frame update
     void Start()
     {
-        Cube.transform.DOMove(endPoint, duration)
-                      .SetEase(Ease.InCubic)
-                      .OnKill(EndAnimation);
+
     }
 
     private void EndAnimation()
@@ -26,6 +25,12 @@ public class PremetivAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            tween?.Kill();
+            tween = Cube.transform.DOMove(endPoint, duration)
+                .SetEase(Ease.InCubic)
+                .OnKill(EndAnimation);
+        }
     }
 }

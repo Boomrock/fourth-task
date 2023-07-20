@@ -7,19 +7,13 @@ public class ComplexAnimation : MonoBehaviour
 {
     [SerializeField] private Transform Cube;
     [SerializeField] private float duration = 5;
-    [SerializeField] private Vector3 endPoint; 
+    [SerializeField] private Vector3 endPoint;
+
+    private Sequence sequence;
     // Start is called before the first frame update
     void Start()
     {
-        DOTween.Sequence().Append(Cube.DOMove(endPoint, duration).SetEase(Ease.InCubic))
-            .AppendInterval(0.1f)
-            .Append(Cube.DOScale(new Vector3(2, 2), 2))
-            .Append(Cube.DOMove(new Vector3(-1, 1), 0.1f))
-            .AppendInterval(1)
-            .Append(Cube.DOMove(new Vector3(10, 1), 0.1f))
-            .AppendInterval(1)
-            .Append(Cube.DOMove(new Vector3(0,0), 0.1f))
-            .Append(Cube.DOScale(new Vector3( 1, 1), 1));
+
 
     }
 
@@ -31,6 +25,19 @@ public class ComplexAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            sequence?.Kill();
+            sequence = DOTween.Sequence().Append(Cube.DOMove(endPoint, duration).SetEase(Ease.InCubic))
+                .AppendInterval(0.1f)
+                .Append(Cube.DOScale(new Vector3(2, 2), 2))
+                .Append(Cube.DOMove(new Vector3(-1, 1), 0.1f))
+                .AppendInterval(1)
+                .Append(Cube.DOMove(new Vector3(10, 1), 0.1f))
+                .AppendInterval(1)
+                .Append(Cube.DOMove(new Vector3(0,0), 0.1f))
+                .Append(Cube.DOScale(new Vector3( 1, 1), 1))
+                .OnKill(EndAnimation);
+        }
     }
 }
